@@ -44,6 +44,10 @@ jobs:
         command:    publish
         projects:   dotnet-apiport/src/ApiPort/ApiPort/ApiPort.csproj
         arguments:  --output bld/dotnet-apiport -f net461 --configuration Release $(Dotnet.MsBuildLoggerArgument)
+    test:
+      skip:   true
+    publish:
+      skip:   true
     independantRuntime: ${{ variables.null }}
     linuxRuntime:       ${{ variables.null }}
     macRuntime:         ${{ variables.null }}
