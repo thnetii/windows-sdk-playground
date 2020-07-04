@@ -43,7 +43,9 @@ jobs:
       inputs:
         command:    publish
         projects:   dotnet-apiport/src/ApiPort/ApiPort/ApiPort.csproj
-        arguments:  --output bld/dotnet-apiport -f net461 --configuration Release $(Dotnet.MsBuildLoggerArgument)
+        publishWebProjects: false
+        zipAfterPublish:    false
+        arguments:  --output bld/dotnet-apiport -f net461 -r win10-x64 --no-self-contained --configuration Release $(Dotnet.MsBuildLoggerArgument)
     test:
       skip:   true
     publish:
