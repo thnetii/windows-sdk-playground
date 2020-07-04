@@ -1,0 +1,6 @@
+[submodule "dotnet-apiport"]
+	path = dotnet-apiport
+	url = https://github.com/microsoft/dotnet-apiport.git
+[submodule "azure-pipelines"]
+	path = azure-pipelines
+	url = https://github.com/thnetii/azure-pipelines.git
