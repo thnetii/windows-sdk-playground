@@ -1,0 +1,50 @@
+name: $(Date:yyyy-MM-dd)-rev$(Rev:r)
+trigger:
+  batch: true
+  branches:
+    include:
+    - master
+    - rel/*
+pr:
+- '*'
+resources:
+  repositories:
+  - repository: templates
+    type:       github
+    name:       thnetii/azure-pipelines
+    endpoint:   github
+jobs:
+- template: templates/dotnetcore/azure-pipelines.yml@templates
+  parameters:
+    checkout:
+    - checkout:   self
+      submodules: recursive
+    poststeps:
+    - pwsh: |
+        & (Join-Path -Resolve "." "init.ps1")
+      displayName:      Initialize .NET API Portability Repository
+      workingDirectory: dotnet-apiport
+      errorActionPreference:  Stop
+    - task: DotNetCoreCLI@2
+      displayName:  dotnet restore dotnet-apiport/src/ApiPort/ApiPort/ApiPort.csproj
+      inputs:
+        command:    custom
+        custom:     restore
+        projects:   dotnet-apiport/src/ApiPort/ApiPort/ApiPort.csproj
+        arguments:  $(Dotnet.MsBuildLoggerArgument)
+    - task: DotNetCoreCLI@2
+      displayName:  dotnet build dotnet-apiport/src/ApiPort/ApiPort/ApiPort.csproj
+      inputs:
+        command:    build
+        projects:   dotnet-apiport/src/ApiPort/ApiPort/ApiPort.csproj
+        arguments:  --configuration Release $(Dotnet.MsBuildLoggerArgument)
+    - task: DotNetCoreCLI@2
+      displayName:  dotnet publish dotnet-apiport/src/ApiPort/ApiPort/ApiPort.csproj
+      inputs:
+        command:    publish
+        projects:   dotnet-apiport/src/ApiPort/ApiPort/ApiPort.csproj
+        arguments:  --output bld/dotnet-apiport -f net461 --configuration Release $(Dotnet.MsBuildLoggerArgument)
+    independantRuntime: ${{ variables.null }}
+    linuxRuntime:       ${{ variables.null }}
+    macRuntime:         ${{ variables.null }}
+
