@@ -13,6 +13,9 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
+using THNETII.TypeConverter;
+using THNETII.AzureDevOps.Pipelines.Logging;
+
 namespace THNETII.WindowsSdk.WindmdNugetPackager
 {
     public static class Program
@@ -72,16 +75,22 @@ namespace THNETII.WindowsSdk.WindmdNugetPackager
                     return hostBuilder;
                 }, host =>
                 {
-                    //host.ConfigureLogging(logging =>
-                    //{
-                    //    bool isCiBuild = BooleanStringConverter.ParseOrDefault(
-                    //        Environment.GetEnvironmentVariable("TF_BUILD"),
-                    //        @default: false);
-                    //    if (isCiBuild)
-                    //    {
-                    //        logging.AddVsoConsole();
-                    //    }
-                    //});
+                    host.ConfigureLogging(logging =>
+                    {
+                        bool isCiBuild =
+#if DEBUG
+                            true
+#else
+                            BooleanStringConverter.ParseOrDefault(
+                                Environment.GetEnvironmentVariable("TF_BUILD"),
+                                @default: false) 
+#endif
+                            ;
+                        if (isCiBuild)
+                        {
+                            logging.AddVsoConsole();
+                        }
+                    });
                     host.ConfigureServices((context, services) =>
                     {
                         services.AddSingleton(def);
