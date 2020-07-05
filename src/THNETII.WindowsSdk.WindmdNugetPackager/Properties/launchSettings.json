@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "THNETII.WindowsSdk.WindmdNugetPackager": {
+      "commandName": "Project",
+      "commandLineArgs": "[config:Environment=Development]"
+    }
+  }
+}
