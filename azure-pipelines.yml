@@ -48,10 +48,11 @@ jobs:
         arguments:  --output bld/dotnet-apiport -f net461 -r win10-x64 --no-self-contained --configuration Release $(Dotnet.MsBuildLoggerArgument)
     test:
       skip:   true
-    windowsRuntime:
-      pack:
-        skip: false
-    independantRuntime: ${{ variables.null }}
+    independantRuntime:
+      arguments:        '-p:NoNetFramework=false'
+      pool:
+        vmImage:        windows-latest
+    windowsRuntime:     ${{ variables.null }}
     linuxRuntime:       ${{ variables.null }}
     macRuntime:         ${{ variables.null }}
 
