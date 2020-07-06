@@ -13,7 +13,6 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-using THNETII.TypeConverter;
 using THNETII.AzureDevOps.Pipelines.Logging;
 using THNETII.NuGet.Logging;
 
@@ -33,12 +32,7 @@ namespace THNETII.WindowsSdk.WindmdNugetPackager
 
             logger.LogInformation("Hello World");
 
-            var cmd = services.GetRequiredService<ParseResult>();
-            var def = services.GetRequiredService<ProgramDefinition>();
-            string? value = cmd.FindResultFor(def.ValueArgument) is { } valueResult
-                ? valueResult.GetValueOrDefault<string>() : null;
-            if (!string.IsNullOrWhiteSpace(value))
-                logger.LogInformation($"Argument passed: {{{nameof(value)}}}", value);
+            
         });
 
         public static Task<int> Main(string[] args)
@@ -84,8 +78,8 @@ namespace THNETII.WindowsSdk.WindmdNugetPackager
 #if DEBUG
                             true
 #else
-                            BooleanStringConverter.ParseOrDefault(
-                                Environment.GetEnvironmentVariable("TF_BUILD"),
+                            THNETII.TypeConverter.BooleanStringConverter
+                                .ParseOrDefault(Environment.GetEnvironmentVariable("TF_BUILD"),
                                 @default: false) 
 #endif
                             ;
@@ -113,16 +107,25 @@ namespace THNETII.WindowsSdk.WindmdNugetPackager
             {
                 RootCommand = new RootCommand { Handler = Handler };
 
-                ValueArgument = new Argument<string>("VALUE")
+                SdkVersionOption = new Option<string[]>("--sdk")
                 {
-                    Description = "A value to be logged",
-                    Arity = ArgumentArity.ZeroOrOne
+                    Name = nameof(SdkVersionOption),
+                    Description = $"Windows SDK version (4 components), " +
+                        "all: Use all available Windows SDK versions, " +
+                        "current: Use Windows SDK registered as current, " +
+                        "Multiple versions may be specified",
+                    Argument =
+                    {
+                        Name = "SDK",
+                        Description = "4-component version number, all or current"
+                    }
                 };
-                RootCommand.AddArgument(ValueArgument);
+                SdkVersionOption.AddAlias("-s");
+                RootCommand.AddOption(SdkVersionOption);
             }
 
             public RootCommand RootCommand { get; }
-            public Argument<string> ValueArgument { get; }
+            public Option<string[]> SdkVersionOption { get; }
         }
     }
 }
