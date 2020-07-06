@@ -15,9 +15,12 @@ using Microsoft.Extensions.Logging;
 
 using THNETII.TypeConverter;
 using THNETII.AzureDevOps.Pipelines.Logging;
+using THNETII.NuGet.Logging;
 
 namespace THNETII.WindowsSdk.WindmdNugetPackager
 {
+    using NuGetLogger = global::NuGet.Common.ILogger;
+
     public static class Program
     {
         private static ICommandHandler Handler { get; } = CommandHandler.Create(
@@ -97,6 +100,7 @@ namespace THNETII.WindowsSdk.WindmdNugetPackager
                         services.AddOptions<InvocationLifetimeOptions>()
                             .Configure<IConfiguration>((opts, config) =>
                                 config.Bind("Lifetime", opts));
+                        services.AddTransient<NuGetLogger, NuGetWrapperLogger>();
                     });
                 })
                 .Build();

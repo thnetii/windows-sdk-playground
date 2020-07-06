@@ -4,3 +4,6 @@
 [submodule "azure-pipelines"]
 	path = azure-pipelines
 	url = https://github.com/thnetii/azure-pipelines.git
+[submodule "nuget"]
+	path = nuget
+	url = https://github.com/thnetii/nuget.git
