@@ -46,8 +46,6 @@ jobs:
         publishWebProjects: false
         zipAfterPublish:    false
         arguments:  --output bld/dotnet-apiport -f net461 -r win10-x64 --no-self-contained --configuration Release $(Dotnet.MsBuildLoggerArgument)
-    test:
-      skip:   true
     independantRuntime:
       arguments:        '-p:NoNetFramework=false'
       pool:
