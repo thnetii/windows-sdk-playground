@@ -18,36 +18,7 @@ jobs:
   parameters:
     checkout:
     - checkout:   self
-      submodules: recursive
-    poststeps:
-    - pwsh: |
-        & (Join-Path -Resolve "." "init.ps1")
-      displayName:      Initialize .NET API Portability Repository
-      workingDirectory: dotnet-apiport
-      errorActionPreference:  Stop
-    - task: DotNetCoreCLI@2
-      displayName:  dotnet restore dotnet-apiport/src/ApiPort/ApiPort/ApiPort.csproj
-      inputs:
-        command:    custom
-        custom:     restore
-        projects:   dotnet-apiport/src/ApiPort/ApiPort/ApiPort.csproj
-        arguments:  $(Dotnet.MsBuildLoggerArgument)
-    - task: DotNetCoreCLI@2
-      displayName:  dotnet build dotnet-apiport/src/ApiPort/ApiPort/ApiPort.csproj
-      inputs:
-        command:    build
-        projects:   dotnet-apiport/src/ApiPort/ApiPort/ApiPort.csproj
-        arguments:  --configuration Release $(Dotnet.MsBuildLoggerArgument)
-    - task: DotNetCoreCLI@2
-      displayName:  dotnet publish dotnet-apiport/src/ApiPort/ApiPort/ApiPort.csproj
-      inputs:
-        command:    publish
-        projects:   dotnet-apiport/src/ApiPort/ApiPort/ApiPort.csproj
-        publishWebProjects: false
-        zipAfterPublish:    false
-        arguments:  --output bld/dotnet-apiport -f net461 -r win10-x64 --no-self-contained --configuration Release $(Dotnet.MsBuildLoggerArgument)
-    test:
-      skip:   true
+      submodules: true
     independantRuntime:
       arguments:        '-p:NoNetFramework=false'
       pool:
