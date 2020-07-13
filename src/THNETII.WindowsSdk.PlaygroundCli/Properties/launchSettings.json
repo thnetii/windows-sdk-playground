@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "THNETII.WindowsSdk.PlaygroundCli": {
+      "commandName": "Project",
+      "commandLineArgs": "[config:Environment=Development]"
+    }
+  }
+}
