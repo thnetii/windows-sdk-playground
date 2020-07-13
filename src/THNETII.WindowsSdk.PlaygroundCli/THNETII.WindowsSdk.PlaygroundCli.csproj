@@ -6,6 +6,7 @@
     <TargetFrameworks Condition="'$(NoNetFramework)'!='true'">
       $(TargetFrameworks);net461
     </TargetFrameworks>
+    <TargetFramework Condition="'$(BuildDefaultTargetFramework)'!=''">netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup Condition="
