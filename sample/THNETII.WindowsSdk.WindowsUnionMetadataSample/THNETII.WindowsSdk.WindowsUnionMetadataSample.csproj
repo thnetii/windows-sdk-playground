@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFrameworks>netcoreapp3.1;net46</TargetFrameworks>
+  </PropertyGroup>
+
+  <ItemGroup Condition=" '$(TargetFrameworkIdentifier)' == '.NETCoreApp'  AND '$(_TargetFrameworkVersionWithoutV)' &gt;= '3.0' ">
+    <FrameworkReference Include="Microsoft.WindowsDesktop.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.19041.1" />
+  </ItemGroup>
+
+</Project>

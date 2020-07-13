@@ -31,7 +31,7 @@ namespace THNETII.WindowsSdk.Serialization.Test
                 extension, sdkVersion, "SDKManifest.xml");
             Skip.IfNot(File.Exists(sdkManifestPath), $"Extension SDK Manifest file \"{sdkManifestPath}\" does not exist");
 
-            var serializer = new XmlSerializer(typeof(SdkManifestFileList));
+            var serializer = new XmlSerializer(typeof(SdkExtensionManifestFileList));
             object sdkManifestObject;
             using (var sdkManifestStream = File.OpenRead(sdkManifestPath))
             using (var sdkManifestReader = XmlReader.Create(sdkManifestStream))
@@ -39,7 +39,7 @@ namespace THNETII.WindowsSdk.Serialization.Test
                 sdkManifestObject = serializer.Deserialize(sdkManifestReader);
             }
 
-            var sdkFileList = Assert.IsType<SdkManifestFileList>(sdkManifestObject);
+            var sdkFileList = Assert.IsType<SdkExtensionManifestFileList>(sdkManifestObject);
             Assert.NotNull(sdkFileList.TargetPlatform);
             Assert.NotNull(sdkFileList.TargetPlatformVersion);
 

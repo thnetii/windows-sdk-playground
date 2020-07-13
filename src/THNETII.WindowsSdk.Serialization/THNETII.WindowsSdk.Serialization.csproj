@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\dotnet-common\src\THNETII.Common\THNETII.Common.csproj" />
+    <ProjectReference Include="..\..\dotnet-common\src\THNETII.TypeConverter\THNETII.TypeConverter.csproj" />
   </ItemGroup>
 
 </Project>

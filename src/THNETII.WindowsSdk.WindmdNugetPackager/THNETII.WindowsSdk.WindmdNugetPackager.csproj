@@ -27,6 +27,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\THNETII.WindowsSdk.Serialization\THNETII.WindowsSdk.Serialization.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <EmbeddedResource Include="appsettings.json;appsettings.*.json" />
     <EmbeddedResource Update="appsettings.*.json">
       <DependentUpon>appsettings.json</DependentUpon>
